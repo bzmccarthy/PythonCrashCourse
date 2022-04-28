@@ -1,1 +1,7 @@
-print('this is chapter 2')
+message = 'Hello Python world'
+
+print(message)
+
+message = 'Hello Crash Course World'
+
+print(message)
