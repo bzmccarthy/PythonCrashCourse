@@ -43,14 +43,17 @@ def attack_target(attacker, target):
     print(f'Attacker: {attacker.name}')
     print(f'Target: {target.name}')
            
-    attack_total = (randint(1,6) 
-                    + randint(1,6) 
-                    + attacker.attack_bonus)
+    attack_roll = randint(1,6) + randint(1,6)
+    
+    attack_total = attack_roll + attacker.attack_bonus
     print(f'Attack total: {attack_total}')
         
     if attack_total > target.armor:
+        if attack_roll == 12:
+            damage = (attack_total - target.armor + attacker.dmg_bonus) * 2
+        else:
+            damage = attack_total - target.armor + attacker.dmg_bonus
         print(f'Target armor: {target.armor}')
-        damage = attack_total - target.armor + attacker.dmg_bonus
         print(f'Hit! {attacker.name} hit\
  {target.name} for {damage} points of damage!')
         target.health -= damage
@@ -145,43 +148,72 @@ keep_going = True
         
 player_roster = [Combatant(name = 'PC_A', 
                            attack_bonus=1,
-                           armor=8), 
+                           dmg_bonus=0,
+                           armor=8,
+                           health=6), 
                  Combatant(name = 'PC_B', 
-                           attack_bonus=0,
-                           armor=8), 
+                           attack_bonus=1,
+                           dmg_bonus=0,
+                           armor=8,
+                           health=6), 
                  Combatant(name = 'PC_C', 
                            attack_bonus=1,
-                           armor=8), 
+                           dmg_bonus=0,
+                           armor=8,
+                           health=6), 
                  Combatant(name = 'PC_D', 
-                           attack_bonus=0,
-                           armor=8)]
+                           attack_bonus=1,
+                           dmg_bonus=0,
+                           armor=8,
+                           health=6)]
 
-monster_roster = [Combatant(team = 'Monster', 
+"""monster_roster = [Combatant(team = 'Monster', 
                             name = 'Mon_1',
-                            armor = 6,
-                            health = 1), 
+                            attack_bonus=0,
+                            dmg_bonus=0,
+                            armor=7,
+                            health=4), 
                   Combatant(team = 'Monster', 
                             name = 'Mon_2',
-                            armor = 6,
-                            health = 1), 
+                            attack_bonus=0,
+                            dmg_bonus=0,
+                            armor=7,
+                            health=4), 
                   Combatant(team = 'Monster', 
                             name = 'Mon_3',
-                            armor = 6,
-                            health = 1), 
+                            attack_bonus=0,
+                            dmg_bonus=0,
+                            armor=7,
+                            health=4), 
                   Combatant(team = 'Monster', 
                             name = 'Mon_4',
-                            armor = 6,
-                            health = 1)]
+                            attack_bonus=0,
+                            dmg_bonus=0,
+                            armor=7,
+                            health=4)]"""
+              
+monster_roster = [Combatant(team = 'Monster', 
+                            name = 'Mon_1',
+                            attack_bonus=0,
+                            dmg_bonus=0,
+                            armor=6,
+                            health=4), 
+                  Combatant(team = 'Monster', 
+                            name = 'Mon_2',
+                            attack_bonus=0,
+                            dmg_bonus=0,
+                            armor=6,
+                            health=4)]
 
 
-round_number = 1
+round_number = 0
 
 while keep_going == True:
     
-    print(f'This is round number {round_number}.\n')
-    
-    keep_going = play_round()
     round_number += 1
+    print(f'\nThis is round number {round_number}.\n')
+    keep_going = play_round()
+
     
 if len(monster_roster) == 0:
     print('PLAYERS WIN THE GAME!!!!')
