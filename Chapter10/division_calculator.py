@@ -9,6 +9,9 @@ while True:
     if second_number == 'q':
         break
     
-    answer = int(first_number) / int(second_number)
-    print(answer)
-    
+    try:
+        answer = int(first_number) / int(second_number)
+    except:
+        print("You can't divide by zero!")
+    else:
+        print(answer)
