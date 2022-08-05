@@ -1,7 +1,10 @@
 import sys
+import os
 from time import sleep
 
 import pygame
+
+os.chdir('C:/Users/bzmcc/Documents/PythonCrashCourse/alien_invasion')
 
 from settings import Settings
 from ship import Ship
@@ -73,6 +76,8 @@ class AlienInvasion:
             self.ship.center_ship()
             
             self.sb.prep_score()
+            self.sb.prep_level()
+            self.sb.prep_ships()
             
             pygame.mouse.set_visible(False)
     
@@ -135,6 +140,10 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+            
+            # Increase level
+            self.stats.level += 1
+            self.sb.prep_level()
                 
     def _update_aliens(self):
         """Update the positions of all aliens in the fleet"""
@@ -151,6 +160,7 @@ class AlienInvasion:
         
         if self.stats.ships_left > 0:
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
         
             self.aliens.empty()
             self.bullets.empty()
