@@ -3,23 +3,17 @@ from die import Die
 class Combatant:
     """A class representing a single friendly or enemy combatant"""
     
-    def __init__(self, hp=6, ac=0, hit_die=6,
+    def __init__(self, hp=6, ac=0, hit_die=[6],
                 strength=10, dexterity=10, willpower=10,
                 name='DefaultName'):
         """Set initial values for combatant"""
         self.name = name
-        self.attack_die = Die(num_sides=hit_die)
+        self.hit_die = hit_die
         self.hp = hp
         self.ac = ac
         self.strength = strength
         self.dexterity = dexterity
         self.willpower = willpower
-        
-    def roll_attack(self):
-        """Roll attack die and return the numbers"""
-        attack_roll = self.attack_die.roll()
-        print(f"{self.name} rolled a {attack_roll}.")
-        return attack_roll
     
     def take_damage(self, enemy_attack_roll=0):
         """See if and how much damage is taken"""
@@ -72,9 +66,16 @@ class Combatant:
         
     def attack(self, enemy):
         """Attack an enemy"""
-        attack_roll = self.attack_die.roll()
-        print(f"{self.name} attacks {enemy.name}, rolls a {attack_roll}.")
-        enemy.take_damage(attack_roll)
+        
+        attacks = []
+        for die in self.hit_die:
+            attack_roll = Die(num_sides=die).roll()
+            print(f"{self.name} attacks {enemy.name}, rolls a {attack_roll}.")
+            attacks.append(attack_roll)
+        
+        final_attack = max(attacks)
+        print(f"{self.name} best roll on {enemy.name} is {final_attack}.")
+        enemy.take_damage(final_attack)
         
     def roll_critical(self):
         """Roll for critical damage"""
